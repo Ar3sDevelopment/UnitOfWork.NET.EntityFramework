@@ -27,7 +27,7 @@ namespace UnitOfWork.NET.EntityFramework.Interfaces
         /// 
         /// </summary>
         /// <param name="entity"></param>
-        DbEntityEntry Entry<TEntity>(TEntity entity);
+        DbEntityEntry Entry<TEntity>(TEntity entity) where TEntity : class;
 
         /// <summary>
         /// 

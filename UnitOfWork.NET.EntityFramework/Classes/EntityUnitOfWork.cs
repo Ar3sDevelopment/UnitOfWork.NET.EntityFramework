@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using UnitOfWork.NET.EntityFramework.Interfaces;
 
 namespace UnitOfWork.NET.EntityFramework.Classes
 {
-    public class EntityUnitOfWork : NET.Classes.UnitOfWork
+    public class EntityUnitOfWork : NET.Classes.UnitOfWork, IEntityUnitOfWork
     {
         private readonly bool _autoContext;
         private readonly DbContext _dbContext;
@@ -32,63 +35,92 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 
         public override IEnumerable<T> Data<T>() => Set<T>().AsEnumerable();
 
+        public virtual void BeforeSaveChanges(DbContext context)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            _dbContext.ChangeTracker.DetectChanges();
+
+            var entries = _dbContext.ChangeTracker.Entries();
+            var entriesGroup = entries.Where(t => t.State != EntityState.Unchanged && t.State != EntityState.Detached).ToList().GroupBy(t => ObjectContext.GetObjectType(t.Entity.GetType())).ToList().Select(t => new { t.Key, EntriesByState = t.GroupBy(g => g.State, g => g.Entity).ToList() }).ToList();
+
+            BeforeSaveChanges(_dbContext);
+
+            var res = _dbContext.SaveChanges();
+
+            foreach (var item in entriesGroup)
+            {
+                var entityType = item.Key;
+                var entitiesByState = item.EntriesByState.ToDictionary(t => t.Key, t => t.AsEnumerable());
+                var mHelper = GetType().GetMethod("CallOnSaveChanges", BindingFlags.NonPublic | BindingFlags.Instance);
+                mHelper.MakeGenericMethod(entityType).Invoke(this, new object[] { entitiesByState });
+            }
+
+            AfterSaveChanges(_dbContext);
+
+            return res;
+        }
+
+        public virtual void AfterSaveChanges(DbContext context)
+        {
+        }
+
+        public void Transaction(Action<IEntityUnitOfWork> body)
+        {
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    body.Invoke(this);
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                }
+            }
+        }
+
+        public bool TransactionSaveChanges(Action<IEntityUnitOfWork> body)
+        {
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    body.Invoke(this);
+                    var res = SaveChanges() != 0;
+                    transaction.Commit();
+                    return res;
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+            }
+        }
+
         public DbEntityEntry Entry<TEntity>(TEntity entity) where TEntity : class => _dbContext.Entry(entity);
+
         [Obsolete("Use Set instead")]
         public DbSet<TEntity> DbSet<TEntity>() where TEntity : class => _dbContext.Set<TEntity>();
+
         public DbSet<TEntity> Set<TEntity>() where TEntity : class => _dbContext.Set<TEntity>();
 
         public IEntityRepository<TEntity> EntityRepository<TEntity>() where TEntity : class => Repository<TEntity>() as IEntityRepository<TEntity>;
 
-        public IEntityRepository<TEntity> EntityRepository<TEntity, TDTO>() where TEntity : class where TDTO : class => Repository<TEntity, TDTO>() as IEntityRepository<TEntity, TDTO>;
+        public IEntityRepository<TEntity, TDTO> EntityRepository<TEntity, TDTO>() where TEntity : class where TDTO : class => Repository<TEntity, TDTO>() as IEntityRepository<TEntity, TDTO>;
 
-        /*    
-    member uow.SaveChanges() = 
-        context.ChangeTracker.DetectChanges()
-        let entries = context.ChangeTracker.Entries()
-        let entriesGroup = 
-            entries
-            |> Seq.filter (fun t -> t.State <> EntityState.Unchanged && t.State <> EntityState.Detached)
-            |> Array.ofSeq
-            |> Array.groupBy (fun t -> ObjectContext.GetObjectType(t.Entity.GetType()))
-        
-        let entitiesGroup = (entriesGroup |> Array.map (fun (t, e) -> (t, e.ToList().GroupBy((fun i -> i.State), (fun (i : DbEntityEntry) -> i.Entity)).ToList()))).ToList()
-        context |> uow.BeforeSaveChanges
-        let res = context.SaveChanges()
-        for item in entitiesGroup do
-            let (entityType, entitiesByState) = item
-            let mHelper = uow.GetType().GetMethod("CallOnSaveChanges", BindingFlags.NonPublic ||| BindingFlags.Instance)
-            mHelper.MakeGenericMethod([| entityType |]).Invoke(uow, [| entitiesByState.ToDictionary((fun t -> t.Key), (fun (t : IGrouping<EntityState, obj>) -> t.AsEnumerable())) |]) |> ignore
-        context |> uow.AfterSaveChanges
-        res
-    
-    member this.SaveChangesAsync() = async { return this.SaveChanges() } |> Async.StartAsTask
-    abstract BeforeSaveChanges : context:DbContext -> unit
-    override uow.BeforeSaveChanges context = ()
-    abstract AfterSaveChanges : context:DbContext -> unit
-    override uow.AfterSaveChanges context = ()
-    
-    member private uow.CallOnSaveChanges<'TEntity when 'TEntity : not struct and 'TEntity : equality and 'TEntity : null>(entitiesObj : Dictionary<EntityState, IEnumerable<obj>>) = 
-        let entities = entitiesObj.ToDictionary((fun t -> t.Key), (fun (t : KeyValuePair<EntityState, IEnumerable<obj>>) -> t.Value.Cast<'TEntity>()))
-        uow.EntityRepository<'TEntity>().OnSaveChanges(entities)
-    
-    member this.Transaction(body : Action<IEntityUnitOfWork>) = 
-        use transaction = context.Database.BeginTransaction()
-        try 
-            this |> body.Invoke
-            transaction.Commit()
-        with _ -> transaction.Rollback()
-    
-    member this.TransactionSaveChanges(body : Action<IEntityUnitOfWork>) = 
-        use transaction = context.Database.BeginTransaction()
-        try 
-            this |> body.Invoke
-            let res = this.SaveChanges() <> 0
-            transaction.Commit()
-            res
-        with _ -> 
-            transaction.Rollback()
-            false
-        */
+        private void CallOnSaveChanges<TEntity>(Dictionary<EntityState, IEnumerable<object>> entitiesObj) where TEntity : class
+        {
+            var entities = entitiesObj.ToDictionary(t => t.Key, t => t.Value.Cast<TEntity>());
+
+            EntityRepository<TEntity>().OnSaveChanges(entities);
+        }
+
+        public async Task<int> SaveChangesAsync() => await new TaskFactory().StartNew(SaveChanges);
     }
 
     public class EntityUnitOfWork<TContext> : EntityUnitOfWork where TContext : DbContext, new()
@@ -97,13 +129,14 @@ namespace UnitOfWork.NET.EntityFramework.Classes
         {
         }
 
-        /*
-    member uow.BeforeSaveChanges(context : DbContext) = base.BeforeSaveChanges context
-    member uow.AfterSaveChanges(context : DbContext) = base.AfterSaveChanges context
-    abstract BeforeSaveChanges : context:'TContext -> unit
-    override uow.BeforeSaveChanges(context : 'TContext) = uow.BeforeSaveChanges(context :> DbContext)
-    abstract AfterSaveChanges : context:'TContext -> unit
-    override uow.AfterSaveChanges(context : 'TContext) = uow.AfterSaveChanges(context :> DbContext)
-        */
+        public virtual void BeforeSaveChanges(TContext context)
+        {
+            BeforeSaveChanges((DbContext)context);
+        }
+
+        public virtual void AfterSaveChanges(TContext context)
+        {
+            AfterSaveChanges((DbContext)context);
+        }
     }
 }
