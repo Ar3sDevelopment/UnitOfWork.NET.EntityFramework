@@ -56,12 +56,12 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <ProjectReference Include="..\UnitOfWork.NET.EntityFramework.NUnit.Data\UnitOfWork.NET.EntityFramework.NUnit.Data.csproj">
+    <ProjectReference Include="..\UnitOfWork.NET.EntityFramework.FS.NUnit.Data\UnitOfWork.NET.EntityFramework.NUnit.Data.csproj">
       <Name>UnitOfWork.NET.EntityFramework.NUnit.Data</Name>
       <Project>{2100b07c-fa1d-4a34-8698-8da3ac661898}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\UnitOfWork.NET.EntityFramework\UnitOfWork.NET.EntityFramework.fsproj">
+    <ProjectReference Include="..\UnitOfWork.NET.EntityFramework.FS\UnitOfWork.NET.EntityFramework.fsproj">
       <Name>UnitOfWork.NET.EntityFramework</Name>
       <Project>{b5404c21-4cac-40a4-a893-3a76b8efb811}</Project>
       <Private>True</Private>
@@ -90,6 +90,10 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.2.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnitOfWork.NET">
+      <HintPath>..\packages\UnitOfWork.NET.4.1.0.404-beta1\lib\net45\UnitOfWork.NET.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
 </Project>

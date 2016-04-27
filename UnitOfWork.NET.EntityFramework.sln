@@ -1,11 +1,11 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "UnitOfWork.NET.EntityFramework", "UnitOfWork.NET.EntityFramework\UnitOfWork.NET.EntityFramework.fsproj", "{B5404C21-4CAC-40A4-A893-3A76B8EFB811}"
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "UnitOfWork.NET.EntityFramework", "UnitOfWork.NET.EntityFramework.FS\UnitOfWork.NET.EntityFramework.fsproj", "{B5404C21-4CAC-40A4-A893-3A76B8EFB811}"
 EndProject
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "UnitOfWork.NET.EntityFramework.NUnit", "UnitOfWork.NET.EntityFramework.NUnit\UnitOfWork.NET.EntityFramework.NUnit.fsproj", "{B4BC9105-3593-4A37-903E-F713B2977002}"
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "UnitOfWork.NET.EntityFramework.NUnit", "UnitOfWork.NET.EntityFramework.FS.NUnit\UnitOfWork.NET.EntityFramework.NUnit.fsproj", "{B4BC9105-3593-4A37-903E-F713B2977002}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitOfWork.NET.EntityFramework.NUnit.Data", "UnitOfWork.NET.EntityFramework.NUnit.Data\UnitOfWork.NET.EntityFramework.NUnit.Data.csproj", "{2100B07C-FA1D-4A34-8698-8DA3AC661898}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitOfWork.NET.EntityFramework.NUnit.Data", "UnitOfWork.NET.EntityFramework.FS.NUnit.Data\UnitOfWork.NET.EntityFramework.NUnit.Data.csproj", "{2100B07C-FA1D-4A34-8698-8DA3AC661898}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

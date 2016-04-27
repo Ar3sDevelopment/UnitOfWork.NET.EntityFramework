@@ -98,6 +98,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Numerics" />
+    <Reference Include="UnitOfWork.NET">
+      <HintPath>..\packages\UnitOfWork.NET.4.1.0.404-beta1\lib\net45\UnitOfWork.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
