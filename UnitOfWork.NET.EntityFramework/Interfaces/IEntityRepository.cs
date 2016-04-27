@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq.Expressions;
+using Caelan.DynamicLinq.Classes;
+using UnitOfWork.NET.Interfaces;
+
+namespace UnitOfWork.NET.EntityFramework.Interfaces
+{
+    public interface IEntityRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    {
+        DbSet<TEntity> Set { get; }
+
+        TEntity Entity(params object[] ids);
+
+        TEntity Entity(Expression<Func<TEntity, bool>> expr);
+
+        IEnumerable<TEntity> All(Expression<Func<TEntity, bool>> expr);
+
+        bool Exists(Expression<Func<TEntity, bool>> expr);
+
+        int Count(Expression<Func<TEntity, bool>> expr);
+
+        TEntity Insert(TEntity entity);
+
+        void Update(TEntity entity, params object[] ids);
+
+        void Delete(params object[] ids);
+
+        void OnSaveChanges(IDictionary<EntityState, IEnumerable<TEntity>> entities);
+    }
+
+    public interface IEntityRepository<TEntity, TDTO> : IRepository<TEntity, TDTO>, IEntityRepository<TEntity> where TEntity : class where TDTO : class
+    {
+        TDTO DTO(params object[] ids);
+
+        TDTO DTO(Expression<Func<TEntity, bool>> expr);
+
+        IEnumerable<TDTO> List();
+
+        IEnumerable<TDTO> List(Expression<Func<TEntity, bool>> expr);
+
+        DataSourceResult<TDTO> DataSource(int take, int skip, ICollection<Sort> sort, Filter filter, Expression<Func<TEntity, bool>> where);
+
+        TDTO Insert(TDTO dto);
+
+        void Update(TDTO dto, params object[] ids);
+    }
+}
