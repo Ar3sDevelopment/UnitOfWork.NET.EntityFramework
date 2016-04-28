@@ -48,7 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\ContextSetup.cs" />
     <Compile Include="Migrations\201604280720338_Startup.cs" />
     <Compile Include="Migrations\201604280720338_Startup.Designer.cs">
       <DependentUpon>201604280720338_Startup.cs</DependentUpon>
