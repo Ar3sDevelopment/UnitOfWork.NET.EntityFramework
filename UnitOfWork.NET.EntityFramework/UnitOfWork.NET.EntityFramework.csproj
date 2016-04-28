@@ -71,8 +71,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnitOfWork.NET, Version=4.1.0.404, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UnitOfWork.NET.4.1.0.404-beta1\lib\net45\UnitOfWork.NET.dll</HintPath>
+    <Reference Include="UnitOfWork.NET, Version=4.1.0.421, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UnitOfWork.NET.4.1.0.421-beta1\lib\net45\UnitOfWork.NET.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
