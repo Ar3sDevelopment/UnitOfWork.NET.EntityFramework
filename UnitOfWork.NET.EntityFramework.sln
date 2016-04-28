@@ -2,11 +2,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnitOfWork.NET.EntityFramework", "UnitOfWork.NET.EntityFramework\UnitOfWork.NET.EntityFramework.fsproj", "{B5404C21-4CAC-40A4-A893-3A76B8EFB811}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnitOfWork.NET.EntityFramework.NUnit", "UnitOfWork.NET.EntityFramework.NUnit\UnitOfWork.NET.EntityFramework.NUnit.fsproj", "{B4BC9105-3593-4A37-903E-F713B2977002}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitOfWork.NET.EntityFramework.NUnit.Data", "UnitOfWork.NET.EntityFramework.NUnit.Data\UnitOfWork.NET.EntityFramework.NUnit.Data.csproj", "{2100B07C-FA1D-4A34-8698-8DA3AC661898}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitOfWork.NET.EntityFramework", "UnitOfWork.NET.EntityFramework\UnitOfWork.NET.EntityFramework.csproj", "{A4249514-8CF4-46BB-9513-42B98CE59F53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitOfWork.NET.EntityFramework.NUnit", "UnitOfWork.NET.EntityFramework.NUnit\UnitOfWork.NET.EntityFramework.NUnit.csproj", "{7C3C901E-82CC-4012-9908-6BC4EEF7DCD2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D6D4E70E-1FDF-42D2-A15C-251210597D83}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,18 +19,21 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B5404C21-4CAC-40A4-A893-3A76B8EFB811}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5404C21-4CAC-40A4-A893-3A76B8EFB811}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5404C21-4CAC-40A4-A893-3A76B8EFB811}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5404C21-4CAC-40A4-A893-3A76B8EFB811}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4BC9105-3593-4A37-903E-F713B2977002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4BC9105-3593-4A37-903E-F713B2977002}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4BC9105-3593-4A37-903E-F713B2977002}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4BC9105-3593-4A37-903E-F713B2977002}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2100B07C-FA1D-4A34-8698-8DA3AC661898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2100B07C-FA1D-4A34-8698-8DA3AC661898}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2100B07C-FA1D-4A34-8698-8DA3AC661898}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2100B07C-FA1D-4A34-8698-8DA3AC661898}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4249514-8CF4-46BB-9513-42B98CE59F53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4249514-8CF4-46BB-9513-42B98CE59F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4249514-8CF4-46BB-9513-42B98CE59F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4249514-8CF4-46BB-9513-42B98CE59F53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C3C901E-82CC-4012-9908-6BC4EEF7DCD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C3C901E-82CC-4012-9908-6BC4EEF7DCD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C3C901E-82CC-4012-9908-6BC4EEF7DCD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C3C901E-82CC-4012-9908-6BC4EEF7DCD2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
