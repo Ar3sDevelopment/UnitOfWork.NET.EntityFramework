@@ -1,6 +1,7 @@
 using System.Data.Entity;
 using UnitOfWork.NET.EntityFramework.NUnit.Data.Models.Mapping;
 using System.Runtime.CompilerServices;
+using UnitOfWork.NET.EntityFramework.NUnit.Data.Migrations;
 
 namespace UnitOfWork.NET.EntityFramework.NUnit.Data.Models
 {
