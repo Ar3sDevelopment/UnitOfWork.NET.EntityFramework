@@ -54,7 +54,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
             {
                 var entityType = item.Key;
                 var entitiesByState = item.EntriesByState.ToDictionary(t => t.Key, t => t.AsEnumerable());
-                var mHelper = GetType().GetMethod("CallOnSaveChanges", BindingFlags.NonPublic | BindingFlags.Instance);
+                var mHelper = typeof(EntityUnitOfWork).GetMethod("CallOnSaveChanges", BindingFlags.NonPublic | BindingFlags.Instance);
                 mHelper.MakeGenericMethod(entityType).Invoke(this, new object[] { entitiesByState });
             }
 
