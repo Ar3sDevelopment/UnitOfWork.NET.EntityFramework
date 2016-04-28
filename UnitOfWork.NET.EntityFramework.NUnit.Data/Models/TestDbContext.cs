@@ -8,7 +8,6 @@ namespace UnitOfWork.NET.EntityFramework.NUnit.Data.Models
 	{
 		static TestDbContext()
 		{
-			Database.SetInitializer(new CreateDatabaseIfNotExists<TestDbContext>());
 			Database.SetInitializer(new MigrateDatabaseToLatestVersion<TestDbContext, Configuration>());
 		}
 
