@@ -167,8 +167,8 @@ namespace UnitOfWork.NET.EntityFramework.NUnit
                 uow.SaveChanges();
                 Assert.IsNull(uow.Users.DTO(dto.Id));
 
-                Assert.IsNotNull(uow.Roles);
-                Assert.IsNotNull(uow.UserRoles);
+                Assert.IsNotNull(uow.Roles, "uow.Roles != null");
+                Assert.IsNotNull(uow.UserRoles, "uow.UserRoles != null");
             }
         }
     }
