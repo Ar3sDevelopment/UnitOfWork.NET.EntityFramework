@@ -6,7 +6,10 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Autofac;
+using UnitOfWork.NET.EntityFramework.Extenders;
 using UnitOfWork.NET.EntityFramework.Interfaces;
+using UnitOfWork.NET.Interfaces;
 
 namespace UnitOfWork.NET.EntityFramework.Classes
 {
@@ -23,6 +26,14 @@ namespace UnitOfWork.NET.EntityFramework.Classes
         {
             _dbContext = context;
             _autoContext = managedContext;
+
+            var cb = new ContainerBuilder();
+
+            cb.RegisterGeneric(typeof(EntityRepository<>)).AsSelf().As(typeof(IEntityRepository<>)).As(typeof(IRepository<>));
+            cb.RegisterGeneric(typeof(EntityRepository<,>)).AsSelf().As(typeof(IEntityRepository<,>)).As(typeof(IRepository<,>));
+
+            UpdateContainer(cb);
+            UpdateProperties();
         }
 
         public override void Dispose()
@@ -81,6 +92,16 @@ namespace UnitOfWork.NET.EntityFramework.Classes
                     transaction.Rollback();
                 }
             }
+        }
+
+        protected override void RegisterRepository(ContainerBuilder cb, Type repositoryType)
+        {
+            base.RegisterRepository(cb, repositoryType);
+
+            if (repositoryType.IsGenericTypeDefinition)
+                cb.RegisterGeneric(repositoryType).AsSelf().AsEntityRepository().AsImplementedInterfaces();
+            else
+                cb.RegisterType(repositoryType).AsSelf().AsEntityRepository().AsImplementedInterfaces();
         }
 
         public bool TransactionSaveChanges(Action<IEntityUnitOfWork> body)
