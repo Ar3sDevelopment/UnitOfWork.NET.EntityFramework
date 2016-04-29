@@ -17,6 +17,8 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 
         public EntityUnitOfWork(DbContext context) : this(context, false)
         {
+            RegisterRepository(typeof(EntityRepository<>));
+            RegisterRepository(typeof(EntityRepository<,>));
         }
 
         internal EntityUnitOfWork(DbContext context, bool managedContext)
