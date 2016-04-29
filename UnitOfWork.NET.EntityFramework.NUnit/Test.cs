@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using NUnit.Framework;
 using UnitOfWork.NET.EntityFramework.Classes;
+using UnitOfWork.NET.EntityFramework.Interfaces;
 using UnitOfWork.NET.EntityFramework.NUnit.Classes;
 using UnitOfWork.NET.EntityFramework.NUnit.Data.Models;
 using UnitOfWork.NET.EntityFramework.NUnit.DTO;
@@ -166,7 +168,25 @@ namespace UnitOfWork.NET.EntityFramework.NUnit
                 uow.Users.Delete(dto.Id);
                 uow.SaveChanges();
                 Assert.IsNull(uow.Users.DTO(dto.Id));
+            }
+        }
 
+        [Test]
+        public void TestReflection()
+        {
+            using (var uow = new TestUnitOfWork())
+            {
+                Console.WriteLine(uow.UserRolesRegistered);
+
+                Assert.IsNotNull(uow.Repository<User, UserDTO>(), "uow.Users != null by reflection base");
+                Assert.IsNotNull(uow.Repository<Role, RoleDTO>(), "uow.Roles != null by reflection base");
+                Assert.IsNotNull(uow.Repository<UserRole, UserRoleDTO>(), "uow.UserRoles != null by reflection base");
+
+                Assert.IsNotNull(uow.EntityRepository<User, UserDTO>(), "uow.Users != null by reflection");
+                Assert.IsNotNull(uow.EntityRepository<Role, RoleDTO>(), "uow.Roles != null by reflection");
+                Assert.IsNotNull(uow.EntityRepository<UserRole, UserRoleDTO>(), "uow.UserRoles != null by reflection");
+
+                Assert.IsNotNull(uow.Users, "uow.Users != null");
                 Assert.IsNotNull(uow.Roles, "uow.Roles != null");
                 Assert.IsNotNull(uow.UserRoles, "uow.UserRoles != null");
             }
