@@ -49,17 +49,17 @@ namespace UnitOfWork.NET.EntityFramework.NUnit
                     Password = "test"
                 };
 
-                entity = uow.EntityRepository<User>().Insert(entity);
+                entity = uow.Repository<User>().Insert(entity);
                 uow.SaveChanges();
                 Assert.AreNotEqual(entity.Id, 0);
                 Console.WriteLine(entity.Id);
                 entity.Password = "test2";
-                uow.EntityRepository<User>().Update(entity, entity.Id);
+                uow.Repository<User>().Update(entity, entity.Id);
                 uow.SaveChanges();
-                Assert.AreEqual(entity.Password, uow.EntityRepository<User>().Entity(entity.Id).Password);
-                uow.EntityRepository<User>().Delete(entity.Id);
+                Assert.AreEqual(entity.Password, uow.Repository<User>().Entity(entity.Id).Password);
+                uow.Repository<User>().Delete(entity.Id);
                 uow.SaveChanges();
-                Assert.IsNull(uow.EntityRepository<User>().Entity(entity.Id));
+                Assert.IsNull(uow.Repository<User>().Entity(entity.Id));
             }
         }
 
@@ -70,7 +70,7 @@ namespace UnitOfWork.NET.EntityFramework.NUnit
 
             using (var uow = new EntityUnitOfWork<TestDbContext>())
             {
-                var users = uow.EntityRepository<User, UserDTO>().List();
+                var users = uow.Repository<User, UserDTO>().List();
                 stopwatch.Stop();
                 Console.WriteLine(stopwatch.ElapsedMilliseconds);
 
@@ -83,20 +83,20 @@ namespace UnitOfWork.NET.EntityFramework.NUnit
                     Password = "test"
                 };
 
-                dto = uow.EntityRepository<User, UserDTO>().Insert(dto);
+                dto = uow.Repository<User, UserDTO>().Insert(dto);
                 uow.SaveChanges();
                 var login = dto.Login;
-                dto = uow.EntityRepository<User, UserDTO>().DTO(d => d.Login == login);
+                dto = uow.Repository<User, UserDTO>().DTO(d => d.Login == login);
                 Assert.IsNotNull(dto);
                 Assert.AreNotEqual(dto.Id, 0);
                 Console.WriteLine(dto.Id);
                 dto.Password = "test2";
-                uow.EntityRepository<User, UserDTO>().Update(dto, dto.Id);
+                uow.Repository<User, UserDTO>().Update(dto, dto.Id);
                 uow.SaveChanges();
-                Assert.AreEqual(dto.Password, uow.EntityRepository<User, UserDTO>().DTO(dto.Id).Password);
-                uow.EntityRepository<User, UserDTO>().Delete(dto.Id);
+                Assert.AreEqual(dto.Password, uow.Repository<User, UserDTO>().DTO(dto.Id).Password);
+                uow.Repository<User, UserDTO>().Delete(dto.Id);
                 uow.SaveChanges();
-                Assert.IsNull(uow.EntityRepository<User, UserDTO>().DTO(dto.Id));
+                Assert.IsNull(uow.Repository<User, UserDTO>().DTO(dto.Id));
             }
         }
 
@@ -176,13 +176,9 @@ namespace UnitOfWork.NET.EntityFramework.NUnit
             {
                 Console.WriteLine(uow.UserRolesRegistered);
 
-                Assert.IsNotNull(uow.Repository<User, UserDTO>(), "uow.Users != null by reflection base");
-                Assert.IsNotNull(uow.Repository<Role, RoleDTO>(), "uow.Roles != null by reflection base");
-                Assert.IsNotNull(uow.Repository<UserRole, UserRoleDTO>(), "uow.UserRoles != null by reflection base");
-
-                Assert.IsNotNull(uow.EntityRepository<User, UserDTO>(), "uow.Users != null by reflection");
-                Assert.IsNotNull(uow.EntityRepository<Role, RoleDTO>(), "uow.Roles != null by reflection");
-                Assert.IsNotNull(uow.EntityRepository<UserRole, UserRoleDTO>(), "uow.UserRoles != null by reflection");
+                Assert.IsNotNull(uow.Repository<User, UserDTO>(), "uow.Users != null by reflection");
+                Assert.IsNotNull(uow.Repository<Role, RoleDTO>(), "uow.Roles != null by reflection");
+                Assert.IsNotNull(uow.Repository<UserRole, UserRoleDTO>(), "uow.UserRoles != null by reflection");
 
                 Assert.IsNotNull(uow.Users, "uow.Users != null");
                 Assert.IsNotNull(uow.Roles, "uow.Roles != null");

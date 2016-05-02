@@ -44,11 +44,11 @@ namespace UnitOfWork.NET.EntityFramework.Interfaces
         /// <summary>
         /// 
         /// </summary>
-        IEntityRepository<TEntity> EntityRepository<TEntity>() where TEntity : class;
+        IEntityRepository<TEntity> Repository<TEntity>() where TEntity : class;
 
         /// <summary>
         /// 
         /// </summary>
-        IEntityRepository<TEntity, TDTO> EntityRepository<TEntity, TDTO>() where TEntity : class where TDTO : class;
+        IEntityRepository<TEntity, TDTO> Repository<TEntity, TDTO>() where TEntity : class where TDTO : class;
     }
 }
