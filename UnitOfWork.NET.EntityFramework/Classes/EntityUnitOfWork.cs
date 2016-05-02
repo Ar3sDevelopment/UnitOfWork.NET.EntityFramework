@@ -130,15 +130,14 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 
         public DbSet<TEntity> Set<TEntity>() where TEntity : class => _dbContext.Set<TEntity>();
 
-        public IEntityRepository<TEntity> EntityRepository<TEntity>() where TEntity : class => Repository<TEntity>() as IEntityRepository<TEntity>;
-
-        public IEntityRepository<TEntity, TDTO> EntityRepository<TEntity, TDTO>() where TEntity : class where TDTO : class => Repository<TEntity, TDTO>() as IEntityRepository<TEntity, TDTO>;
+        public new IEntityRepository<TEntity> Repository<TEntity>() where TEntity : class => base.Repository<TEntity>() as IEntityRepository<TEntity>;
+        public new IEntityRepository<TEntity, TDTO> Repository<TEntity, TDTO>() where TEntity : class where TDTO : class => base.Repository<TEntity, TDTO>() as IEntityRepository<TEntity, TDTO>;
 
         private void CallOnSaveChanges<TEntity>(Dictionary<EntityState, IEnumerable<object>> entitiesObj) where TEntity : class
         {
             var entities = entitiesObj.ToDictionary(t => t.Key, t => t.Value.Cast<TEntity>());
 
-            EntityRepository<TEntity>().OnSaveChanges(entities);
+            Repository<TEntity>().OnSaveChanges(entities);
         }
 
         public async Task<int> SaveChangesAsync() => await new TaskFactory().StartNew(SaveChanges);
