@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using NUnit.Framework;
 using UnitOfWork.NET.EntityFramework.Classes;
-using UnitOfWork.NET.EntityFramework.Interfaces;
 using UnitOfWork.NET.EntityFramework.NUnit.Classes;
 using UnitOfWork.NET.EntityFramework.NUnit.Data.Models;
 using UnitOfWork.NET.EntityFramework.NUnit.DTO;
