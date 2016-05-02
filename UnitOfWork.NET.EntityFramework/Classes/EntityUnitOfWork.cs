@@ -134,8 +134,8 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 
         public IEntityRepository<TEntity, TDTO> EntityRepository<TEntity, TDTO>() where TEntity : class where TDTO : class => base.Repository<TEntity, TDTO>() as IEntityRepository<TEntity, TDTO>;
 
-        public new IRepository<TEntity> Repository<TEntity>() where TEntity : class => EntityRepository<TEntity>();
-        public new IRepository<TEntity, TDTO> Repository<TEntity, TDTO>() where TEntity : class where TDTO : class => EntityRepository<TEntity, TDTO>();
+        public new IEntityRepository<TEntity> Repository<TEntity>() where TEntity : class => EntityRepository<TEntity>();
+        public new IEntityRepository<TEntity, TDTO> Repository<TEntity, TDTO>() where TEntity : class where TDTO : class => EntityRepository<TEntity, TDTO>();
 
         private void CallOnSaveChanges<TEntity>(Dictionary<EntityState, IEnumerable<object>> entitiesObj) where TEntity : class
         {
