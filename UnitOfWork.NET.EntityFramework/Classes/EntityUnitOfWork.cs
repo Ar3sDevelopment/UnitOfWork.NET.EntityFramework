@@ -130,9 +130,9 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 
         public DbSet<TEntity> Set<TEntity>() where TEntity : class => _dbContext.Set<TEntity>();
 
-        public IEntityRepository<TEntity> EntityRepository<TEntity>() where TEntity : class => Repository<TEntity>() as IEntityRepository<TEntity>;
+        public IEntityRepository<TEntity> EntityRepository<TEntity>() where TEntity : class => base.Repository<TEntity>() as IEntityRepository<TEntity>;
 
-        public IEntityRepository<TEntity, TDTO> EntityRepository<TEntity, TDTO>() where TEntity : class where TDTO : class => Repository<TEntity, TDTO>() as IEntityRepository<TEntity, TDTO>;
+        public IEntityRepository<TEntity, TDTO> EntityRepository<TEntity, TDTO>() where TEntity : class where TDTO : class => base.Repository<TEntity, TDTO>() as IEntityRepository<TEntity, TDTO>;
 
         public new IRepository<TEntity> Repository<TEntity>() where TEntity : class => EntityRepository<TEntity>();
         public new IRepository<TEntity, TDTO> Repository<TEntity, TDTO>() where TEntity : class where TDTO : class => EntityRepository<TEntity, TDTO>();
