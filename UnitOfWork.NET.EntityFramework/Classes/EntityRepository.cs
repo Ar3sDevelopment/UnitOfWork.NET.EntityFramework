@@ -18,7 +18,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 {
     public class EntityRepository<TEntity> : Repository<TEntity>, IEntityRepository<TEntity> where TEntity : class
     {
-        public new IEntityUnitOfWork UnitOfWork { get; set; }
+        public new IEntityUnitOfWork UnitOfWork => base.UnitOfWork as IEntityUnitOfWork;
 
         public EntityRepository(IUnitOfWork manager) : base(manager)
         {
