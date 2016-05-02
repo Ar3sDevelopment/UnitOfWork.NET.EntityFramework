@@ -38,7 +38,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 
         public virtual TEntity Insert(TEntity entity) => Set.Add(entity);
 
-        public virtual void Update(TEntity entity, params object[] ids) => (UnitOfWork as IEntityUnitOfWork)?.Entry(Entity(ids)).CurrentValues.SetValues(entity);
+        public virtual void Update(TEntity entity, params object[] ids) => UnitOfWork?.Entry(Entity(ids)).CurrentValues.SetValues(entity);
 
         public virtual void Delete(params object[] ids) => Set.Remove(Entity(ids));
 
@@ -53,7 +53,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
         public async Task<TEntity> EntityAsync(Expression<Func<TEntity, bool>> expr) => await new TaskFactory().StartNew(() => Entity(expr));
     }
 
-    public class EntityRepository<TEntity, TDTO> : EntityRepository<TEntity>, IEntityRepository<TEntity, TDTO>, IRepository<TEntity, TDTO> where TEntity : class where TDTO : class
+    public class EntityRepository<TEntity, TDTO> : EntityRepository<TEntity>, IEntityRepository<TEntity, TDTO> where TEntity : class where TDTO : class
     {
         public IMapper<TEntity, TDTO> DTOMapper { get; set; }
         public IMapper<TDTO, TEntity> EntityMapper { get; set; }
