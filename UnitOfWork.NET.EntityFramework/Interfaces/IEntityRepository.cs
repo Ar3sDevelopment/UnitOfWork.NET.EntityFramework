@@ -9,6 +9,7 @@ namespace UnitOfWork.NET.EntityFramework.Interfaces
 {
     public interface IEntityRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
+        IEntityUnitOfWork UnitOfWork { get; }
         DbSet<TEntity> Set { get; }
 
         TEntity Entity(params object[] ids);
