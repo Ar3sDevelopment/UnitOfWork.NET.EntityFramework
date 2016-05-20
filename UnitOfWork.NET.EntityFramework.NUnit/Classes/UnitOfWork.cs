@@ -1,10 +1,14 @@
-﻿using UnitOfWork.NET.EntityFramework.Classes;
+﻿using System;
+using UnitOfWork.NET.EntityFramework.Classes;
+using UnitOfWork.NET.EntityFramework.Interfaces;
 using UnitOfWork.NET.EntityFramework.NUnit.Data.Models;
+using UnitOfWork.NET.EntityFramework.NUnit.DTO;
 using UnitOfWork.NET.EntityFramework.NUnit.Repositories;
 using System;
 
 namespace UnitOfWork.NET.EntityFramework.NUnit.Classes
 {
+<<<<<<< HEAD
 	public class TestUnitOfWork : EntityUnitOfWork<TestDbContext>
 	{
 		public UserRepository Users { get; set; }
@@ -37,4 +41,14 @@ namespace UnitOfWork.NET.EntityFramework.NUnit.Classes
 			Console.WriteLine("TestDbContext Before SaveChanges");
 		}
 	}
+=======
+    public class TestUnitOfWork : EntityUnitOfWork<TestDbContext>
+    {
+        public UserRepository Users { get; set; }
+        public RoleRepository Roles { get; set; }
+        public IEntityRepository<UserRole, UserRoleDTO> UserRoles { get; set; }
+
+        public bool UserRolesRegistered => IsRepositoryRegistered(typeof(IEntityRepository<UserRole, UserRoleDTO>));
+    }
+>>>>>>> origin/dev
 }

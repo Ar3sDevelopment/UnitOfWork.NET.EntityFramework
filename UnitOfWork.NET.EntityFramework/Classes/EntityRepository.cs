@@ -18,6 +18,8 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 {
     public class EntityRepository<TEntity> : Repository<TEntity>, IEntityRepository<TEntity> where TEntity : class
     {
+        public new IEntityUnitOfWork UnitOfWork => base.UnitOfWork as IEntityUnitOfWork;
+
         public EntityRepository(IUnitOfWork manager) : base(manager)
         {
         }
@@ -36,7 +38,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 
         public virtual TEntity Insert(TEntity entity) => Set.Add(entity);
 
-        public virtual void Update(TEntity entity, params object[] ids) => (UnitOfWork as IEntityUnitOfWork)?.Entry(Entity(ids)).CurrentValues.SetValues(entity);
+        public virtual void Update(TEntity entity, params object[] ids) => UnitOfWork?.Entry(Entity(ids)).CurrentValues.SetValues(entity);
 
         public virtual void Delete(params object[] ids) => Set.Remove(Entity(ids));
 
@@ -51,7 +53,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
         public async Task<TEntity> EntityAsync(Expression<Func<TEntity, bool>> expr) => await new TaskFactory().StartNew(() => Entity(expr));
     }
 
-    public class EntityRepository<TEntity, TDTO> : EntityRepository<TEntity>, IEntityRepository<TEntity, TDTO>, IRepository<TEntity, TDTO> where TEntity : class where TDTO : class
+    public class EntityRepository<TEntity, TDTO> : EntityRepository<TEntity>, IEntityRepository<TEntity, TDTO> where TEntity : class where TDTO : class
     {
         public IMapper<TEntity, TDTO> DTOMapper { get; set; }
         public IMapper<TDTO, TEntity> EntityMapper { get; set; }
@@ -116,15 +118,12 @@ namespace UnitOfWork.NET.EntityFramework.Classes
             Update(entity, ids);
         }
 
-        /*
-    member this.InsertAsync(dto : 'TDTO) = async { return this.Insert(dto) } |> Async.StartAsTask
-    member this.UpdateAsync(dto : 'TDTO, ids) = async { this.Update(dto, ids) } |> Async.StartAsTask
-    member this.DeleteAsync(dto : 'TDTO, [<ParamArray>] ids) = async { this.Delete(dto, ids) } |> Async.StartAsTask
-    member this.ListAsync(whereExpr : Expression<Func<'TEntity, bool>>) = async { return this.List(whereExpr) } |> Async.StartAsTask
-    member this.ListAsync() = async { return this.List() } |> Async.StartAsTask
-    member this.DataSourceAsync(take : int, skip : int, sort : ICollection<Sort>, filter : Filter, whereFunc : Expression<Func<'TEntity, bool>>) = async { return this.DataSource(take, skip, sort, filter, whereFunc) } |> Async.StartAsTask
-    member this.SingleDTOAsync([<ParamArray>] id : obj []) = async { return this.DTO(id) } |> Async.StartAsTask
-    member this.SingleDTOAsync(expr : Expression<Func<'TEntity, bool>>) = async { return this.DTO(expr) } |> Async.StartAsTask
-        */
+        public async Task<TDTO> InsertAsync(TDTO dto) => await new TaskFactory().StartNew(() => Insert(dto));
+        public async Task UpdateAsync(TDTO dto, params object[] ids) => await new TaskFactory().StartNew(() => Update(dto, ids));
+        public async Task<IEnumerable<TDTO>> ListAsync(Expression<Func<TEntity, bool>> expr) => await new TaskFactory().StartNew(() => List(expr));
+        public async Task<IEnumerable<TDTO>> ListAsync() => await new TaskFactory().StartNew(List);
+        public async Task<DataSourceResult<TDTO>> DataSourceAsync(int take, int skip, ICollection<Sort> sort, Filter filter, Expression<Func<TEntity, bool>> expr) => await new TaskFactory().StartNew(() => DataSource(take, skip, sort, filter, expr));
+        public async Task<TDTO> DTOAsync(Expression<Func<TEntity, bool>> expr) => await new TaskFactory().StartNew(() => DTO(expr));
+        public async Task<TDTO> DTOAsync(params object[] ids) => await new TaskFactory().StartNew(() => DTO(ids));
     }
 }
