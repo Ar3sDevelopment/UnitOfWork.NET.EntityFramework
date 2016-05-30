@@ -123,17 +123,14 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 			}
 		}
 
-		public DbEntityEntry Entry<TEntity>(TEntity entity) where TEntity : class => _dbContext.Entry(entity);
+		public DbEntityEntry Entry<TEntity>(TEntity entity) where TEntity : class, new() => _dbContext.Entry(entity);
 
-		[Obsolete("Use Set instead")]
-		public DbSet<TEntity> DbSet<TEntity>() where TEntity : class => _dbContext.Set<TEntity>();
+		public DbSet<TEntity> Set<TEntity>() where TEntity : class, new() => _dbContext.Set<TEntity>();
 
-		public DbSet<TEntity> Set<TEntity>() where TEntity : class => _dbContext.Set<TEntity>();
+		public new IEntityRepository<TEntity> Repository<TEntity>() where TEntity : class, new() => base.Repository<TEntity>() as IEntityRepository<TEntity>;
+		public new IEntityRepository<TEntity, TDTO> Repository<TEntity, TDTO>() where TEntity : class, new() where TDTO : class, new() => base.Repository<TEntity, TDTO>() as IEntityRepository<TEntity, TDTO>;
 
-		public new IEntityRepository<TEntity> Repository<TEntity>() where TEntity : class => base.Repository<TEntity>() as IEntityRepository<TEntity>;
-		public new IEntityRepository<TEntity, TDTO> Repository<TEntity, TDTO>() where TEntity : class where TDTO : class => base.Repository<TEntity, TDTO>() as IEntityRepository<TEntity, TDTO>;
-
-		private void CallOnSaveChanges<TEntity>(Dictionary<EntityState, IEnumerable<object>> entitiesObj) where TEntity : class
+		private void CallOnSaveChanges<TEntity>(Dictionary<EntityState, IEnumerable<object>> entitiesObj) where TEntity : class, new()
 		{
 			var entities = entitiesObj.ToDictionary(t => t.Key, t => t.Value.Cast<TEntity>());
 

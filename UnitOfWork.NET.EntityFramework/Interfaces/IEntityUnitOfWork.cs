@@ -27,7 +27,7 @@ namespace UnitOfWork.NET.EntityFramework.Interfaces
         /// 
         /// </summary>
         /// <param name="entity"></param>
-        DbEntityEntry Entry<TEntity>(TEntity entity) where TEntity : class;
+        DbEntityEntry Entry<TEntity>(TEntity entity) where TEntity : class, new();
 
         /// <summary>
         /// 
@@ -44,11 +44,11 @@ namespace UnitOfWork.NET.EntityFramework.Interfaces
         /// <summary>
         /// 
         /// </summary>
-        IEntityRepository<TEntity> Repository<TEntity>() where TEntity : class;
+        new IEntityRepository<TEntity> Repository<TEntity>() where TEntity : class, new();
 
         /// <summary>
         /// 
         /// </summary>
-        IEntityRepository<TEntity, TDTO> Repository<TEntity, TDTO>() where TEntity : class where TDTO : class;
+        new IEntityRepository<TEntity, TDTO> Repository<TEntity, TDTO>() where TEntity : class, new() where TDTO : class, new();
     }
 }

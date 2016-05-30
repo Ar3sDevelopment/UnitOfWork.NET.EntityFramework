@@ -61,8 +61,8 @@
       <HintPath>..\packages\System.Linq.Dynamic.1.0.6\lib\net40\System.Linq.Dynamic.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="UnitOfWork.NET, Version=4.1.0.456, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UnitOfWork.NET.4.1.0.456\lib\net45\UnitOfWork.NET.dll</HintPath>
+    <Reference Include="UnitOfWork.NET, Version=4.1.0.461, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UnitOfWork.NET.4.1.0.461\lib\net45\UnitOfWork.NET.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
