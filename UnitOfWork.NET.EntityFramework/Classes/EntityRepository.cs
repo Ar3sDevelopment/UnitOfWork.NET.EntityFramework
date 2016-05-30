@@ -16,7 +16,7 @@ using UnitOfWork.NET.Interfaces;
 
 namespace UnitOfWork.NET.EntityFramework.Classes
 {
-    public class EntityRepository<TEntity> : Repository<TEntity>, IEntityRepository<TEntity> where TEntity : class
+    public class EntityRepository<TEntity> : Repository<TEntity>, IEntityRepository<TEntity> where TEntity : class, new()
     {
         public new IEntityUnitOfWork UnitOfWork => base.UnitOfWork as IEntityUnitOfWork;
 
@@ -53,7 +53,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
         public async Task<TEntity> EntityAsync(Expression<Func<TEntity, bool>> expr) => await new TaskFactory().StartNew(() => Entity(expr));
     }
 
-    public class EntityRepository<TEntity, TDTO> : EntityRepository<TEntity>, IEntityRepository<TEntity, TDTO> where TEntity : class where TDTO : class
+    public class EntityRepository<TEntity, TDTO> : EntityRepository<TEntity>, IEntityRepository<TEntity, TDTO> where TEntity : class, new() where TDTO : class, new()
     {
         public IMapper<TEntity, TDTO> DTOMapper { get; set; }
         public IMapper<TDTO, TEntity> EntityMapper { get; set; }

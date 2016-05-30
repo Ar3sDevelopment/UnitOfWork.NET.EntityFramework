@@ -7,9 +7,9 @@ using UnitOfWork.NET.Interfaces;
 
 namespace UnitOfWork.NET.EntityFramework.Interfaces
 {
-    public interface IEntityRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    public interface IEntityRepository<TEntity> : IRepository<TEntity> where TEntity : class, new()
     {
-        IEntityUnitOfWork UnitOfWork { get; }
+        new IEntityUnitOfWork UnitOfWork { get; }
         DbSet<TEntity> Set { get; }
 
         TEntity Entity(params object[] ids);
@@ -31,7 +31,7 @@ namespace UnitOfWork.NET.EntityFramework.Interfaces
         void OnSaveChanges(IDictionary<EntityState, IEnumerable<TEntity>> entities);
     }
 
-    public interface IEntityRepository<TEntity, TDTO> : IRepository<TEntity, TDTO>, IEntityRepository<TEntity> where TEntity : class where TDTO : class
+    public interface IEntityRepository<TEntity, TDTO> : IRepository<TEntity, TDTO>, IEntityRepository<TEntity> where TEntity : class, new() where TDTO : class, new()
     {
         TDTO DTO(params object[] ids);
 
