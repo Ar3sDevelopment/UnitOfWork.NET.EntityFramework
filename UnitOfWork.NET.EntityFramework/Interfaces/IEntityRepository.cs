@@ -47,4 +47,12 @@ namespace UnitOfWork.NET.EntityFramework.Interfaces
 
         void Update(TDTO dto, params object[] ids);
     }
+    
+    public interface IEntityListRepository<TSource, TDestination, TListDestination> : IEntityRepository<TSource, TDestination>, IListRepository<TSource, TDestination, TListDestination> where TSource : class, new() where TDestination : class, new() where TListDestination : class, new()
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        IRepository<TSource, TListDestination> ListRepository { get; }
+    }
 }

@@ -109,9 +109,9 @@ namespace UnitOfWork.NET.EntityFramework.Classes
             };
         }
 
-        public TDTO Insert(TDTO dto) => Builder.Build(Insert(Builder.Build(dto).To<TEntity>())).To<TDTO>();
+        public virtual TDTO Insert(TDTO dto) => Builder.Build(Insert(Builder.Build(dto).To<TEntity>())).To<TDTO>();
 
-        public void Update(TDTO dto, params object[] ids)
+        public virtual void Update(TDTO dto, params object[] ids)
         {
             var entity = Entity(ids);
             Builder.Build(dto).To(entity);
@@ -125,5 +125,15 @@ namespace UnitOfWork.NET.EntityFramework.Classes
         public async Task<DataSourceResult<TDTO>> DataSourceAsync(int take, int skip, ICollection<Sort> sort, Filter filter, Expression<Func<TEntity, bool>> expr) => await new TaskFactory().StartNew(() => DataSource(take, skip, sort, filter, expr));
         public async Task<TDTO> DTOAsync(Expression<Func<TEntity, bool>> expr) => await new TaskFactory().StartNew(() => DTO(expr));
         public async Task<TDTO> DTOAsync(params object[] ids) => await new TaskFactory().StartNew(() => DTO(ids));
+    }
+    
+    public class EntityRepository<TSource, TDestination, TListDestination> : EntityRepository<TSource, TDestination>, IListRepository<TSource, TDestination, TListDestination> where TSource : class, new() where TDestination : class, new() where TListDestination : class, new()
+    {
+        public Repository(IUnitOfWork manager) : base(manager)
+        {
+            ListRepository = manager.Repository<TSource, TListDestination>();
+        }
+
+        public IEntityRepository<TSource, TListDestination> ListRepository { get; }
     }
 }
