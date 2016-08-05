@@ -129,7 +129,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
     
     public class EntityRepository<TSource, TDestination, TListDestination> : EntityRepository<TSource, TDestination>, IListRepository<TSource, TDestination, TListDestination> where TSource : class, new() where TDestination : class, new() where TListDestination : class, new()
     {
-        public Repository(IUnitOfWork manager) : base(manager)
+        public EntityRepository(IUnitOfWork manager) : base(manager)
         {
             ListRepository = manager.Repository<TSource, TListDestination>();
         }
