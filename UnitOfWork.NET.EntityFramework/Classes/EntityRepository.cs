@@ -127,7 +127,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
         public async Task<TDTO> DTOAsync(params object[] ids) => await new TaskFactory().StartNew(() => DTO(ids));
     }
     
-    public class EntityRepository<TSource, TDestination, TListDestination> : EntityRepository<TSource, TDestination>, IListRepository<TSource, TDestination, TListDestination> where TSource : class, new() where TDestination : class, new() where TListDestination : class, new()
+    public class EntityRepository<TSource, TDestination, TListDestination> : EntityRepository<TSource, TDestination>, IEntityListRepository<TSource, TDestination, TListDestination> where TSource : class, new() where TDestination : class, new() where TListDestination : class, new()
     {
         public EntityRepository(IUnitOfWork manager) : base(manager)
         {

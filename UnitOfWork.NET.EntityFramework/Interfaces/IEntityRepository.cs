@@ -53,6 +53,6 @@ namespace UnitOfWork.NET.EntityFramework.Interfaces
         /// <summary>
         /// 
         /// </summary>
-        IRepository<TSource, TListDestination> ListRepository { get; }
+        IEntityRepository<TSource, TListDestination> ListRepository { get; }
     }
 }
