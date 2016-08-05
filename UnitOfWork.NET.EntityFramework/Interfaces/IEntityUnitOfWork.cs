@@ -33,7 +33,7 @@ namespace UnitOfWork.NET.EntityFramework.Interfaces
         /// 
         /// </summary>
         /// <param name="body"></param>
-        void Transaction(Action<IEntityUnitOfWork> body);
+        bool Transaction(Action<IEntityUnitOfWork> body);
 
         /// <summary>
         /// 

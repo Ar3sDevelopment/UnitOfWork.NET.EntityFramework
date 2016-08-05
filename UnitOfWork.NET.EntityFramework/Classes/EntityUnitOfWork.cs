@@ -78,7 +78,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 		{
 		}
 
-		public void Transaction(Action<IEntityUnitOfWork> body)
+		public bool Transaction(Action<IEntityUnitOfWork> body)
 		{
 			using (var transaction = _dbContext.Database.BeginTransaction())
 			{
@@ -86,10 +86,12 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 				{
 					body.Invoke(this);
 					transaction.Commit();
+					return true;
 				}
 				catch
 				{
 					transaction.Rollback();
+					return false;
 				}
 			}
 		}
