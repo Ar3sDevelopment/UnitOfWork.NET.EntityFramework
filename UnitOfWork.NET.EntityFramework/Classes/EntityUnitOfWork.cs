@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
@@ -95,6 +96,24 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 				}
 			}
 		}
+		
+		public bool Transaction(IsolationLevel isolationLevel, Action<IEntityUnitOfWork> body)
+		{
+			using (var transaction = _dbContext.Database.BeginTransaction(isolationLevel))
+			{
+				try
+				{
+					body.Invoke(this);
+					transaction.Commit();
+					return true;
+				}
+				catch
+				{
+					transaction.Rollback();
+					return false;
+				}
+			}
+		}
 
 		protected override void RegisterRepository(ContainerBuilder cb, Type repositoryType)
 		{
@@ -104,6 +123,25 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 				cb.RegisterGeneric(repositoryType).AsSelf().AsEntityRepository().AsImplementedInterfaces();
 			else
 				cb.RegisterType(repositoryType).AsSelf().AsEntityRepository().AsImplementedInterfaces();
+		}
+
+		public bool TransactionSaveChanges(IsolationLevel isolationLevel, Action<IEntityUnitOfWork> body)
+		{
+			using (var transaction = _dbContext.Database.BeginTransaction(isolationLevel))
+			{
+				try
+				{
+					body.Invoke(this);
+					var res = SaveChanges() != 0;
+					transaction.Commit();
+					return res;
+				}
+				catch
+				{
+					transaction.Rollback();
+					return false;
+				}
+			}
 		}
 
 		public bool TransactionSaveChanges(Action<IEntityUnitOfWork> body)

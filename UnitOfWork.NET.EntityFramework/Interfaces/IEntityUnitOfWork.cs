@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -34,12 +35,16 @@ namespace UnitOfWork.NET.EntityFramework.Interfaces
         /// </summary>
         /// <param name="body"></param>
         bool Transaction(Action<IEntityUnitOfWork> body);
+        
+        bool Transaction(IsolationLevel isolationLevel, Action<IEntityUnitOfWork> body);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="body"></param>
         bool TransactionSaveChanges(Action<IEntityUnitOfWork> body);
+        
+        bool TransactionSaveChanges(IsolationLevel isolationLevel, Action<IEntityUnitOfWork> body);
 
         /// <summary>
         /// 
