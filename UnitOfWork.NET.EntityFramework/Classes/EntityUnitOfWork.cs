@@ -32,6 +32,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 
 			cb.RegisterGeneric(typeof(EntityRepository<>)).AsSelf().As(typeof(IEntityRepository<>)).As(typeof(IRepository<>));
 			cb.RegisterGeneric(typeof(EntityRepository<,>)).AsSelf().As(typeof(IEntityRepository<,>)).As(typeof(IRepository<,>));
+			cb.RegisterGeneric(typeof(EntityRepository<,,>)).AsSelf().As(typeof(IEntityListRepository<,,>)).As(typeof(IListRepository<,,>));
 
 			UpdateContainer(cb);
 			UpdateProperties();
@@ -167,8 +168,8 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 
 		public DbSet<TEntity> Set<TEntity>() where TEntity : class, new() => _dbContext.Set<TEntity>();
 
-		public new IEntityRepository<TEntity> Repository<TEntity>() where TEntity : class, new() => base.Repository<TEntity>() as IEntityRepository<TEntity>;
-		public new IEntityRepository<TEntity, TDTO> Repository<TEntity, TDTO>() where TEntity : class, new() where TDTO : class, new() => base.Repository<TEntity, TDTO>() as IEntityRepository<TEntity, TDTO>;
+		public new IEntityRepository<TEntity> Repository<TEntity>() where TEntity : class, new() => base.Repository<TEntity>() as IEntityRepository<TEntity> ?? CustomRepository<EntityRepository<TEntity>>();
+		public new IEntityRepository<TEntity, TDTO> Repository<TEntity, TDTO>() where TEntity : class, new() where TDTO : class, new() => base.Repository<TEntity, TDTO>() as IEntityRepository<TEntity, TDTO> ?? CustomRepository<EntityRepository<TEntity, TDTO>>();
 
 		private void CallOnSaveChanges<TEntity>(Dictionary<EntityState, IEnumerable<object>> entitiesObj) where TEntity : class, new()
 		{
