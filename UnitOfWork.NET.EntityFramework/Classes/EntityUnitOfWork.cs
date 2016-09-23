@@ -32,7 +32,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 
 			cb.RegisterGeneric(typeof(EntityRepository<>)).AsSelf().As(typeof(IEntityRepository<>)).As(typeof(IRepository<>));
 			cb.RegisterGeneric(typeof(EntityRepository<,>)).AsSelf().As(typeof(IEntityRepository<,>)).As(typeof(IRepository<,>));
-			cb.RegisterGeneric(typeof(EntityRepository<,,>)).AsSelf().As(typeof(IListEntityRepository<,,>)).As(typeof(IListRepository<,,>));
+			cb.RegisterGeneric(typeof(EntityRepository<,,>)).AsSelf().As(typeof(IEntityListRepository<,,>)).As(typeof(IListRepository<,,>));
 
 			UpdateContainer(cb);
 			UpdateProperties();
