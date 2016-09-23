@@ -131,10 +131,10 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 	{
 		public EntityRepository(IUnitOfWork manager) : base(manager)
 		{
-			ListRepository = manager.Repository<TSource, TListDestination>() as IEntityRepository<TSource, TListDestination>;
+			ListRepository = (manager as IEntityUnitOfWork).EntityRepository<TSource, TListDestination>() as IEntityRepository<TSource, TListDestination>;
 		}
 
 		public IEntityRepository<TSource, TListDestination> ListRepository { get; }
-		IRepository<TSource, TListDestination> IListRepository<TSource, TDestination, TListDestination>.ListRepository => ListRepository;
+		IEntityRepository<TSource, TListDestination> IListRepository<TSource, TDestination, TListDestination>.ListRepository => ListRepository;
 	}
 }
