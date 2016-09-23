@@ -135,6 +135,6 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 		}
 
 		public IEntityRepository<TSource, TListDestination> ListRepository { get; }
-		IEntityRepository<TSource, TListDestination> IListRepository<TSource, TDestination, TListDestination>.ListRepository => ListRepository;
+		IRepository<TSource, TListDestination> IListRepository<TSource, TDestination, TListDestination>.ListRepository => ListRepository;
 	}
 }
