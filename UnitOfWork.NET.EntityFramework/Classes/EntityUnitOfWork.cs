@@ -30,9 +30,9 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 
 			var cb = new ContainerBuilder();
 
-			cb.RegisterGeneric(typeof(EntityRepository<>)).AsSelf().As(typeof(IEntityRepository<>)).As(typeof(IRepository<>));
-			cb.RegisterGeneric(typeof(EntityRepository<,>)).AsSelf().As(typeof(IEntityRepository<,>)).As(typeof(IRepository<,>));
-			cb.RegisterGeneric(typeof(EntityRepository<,,>)).AsSelf().As(typeof(IEntityListRepository<,,>)).As(typeof(IListRepository<,,>));
+			cb.RegisterGeneric(typeof(EntityRepository<>)).AsSelf().AsEntityRepository().As(typeof(IEntityRepository<>)).As(typeof(IRepository<>));
+			cb.RegisterGeneric(typeof(EntityRepository<,>)).AsSelf().AsEntityRepository().As(typeof(IEntityRepository<,>)).As(typeof(IRepository<,>));
+			cb.RegisterGeneric(typeof(EntityRepository<,,>)).AsSelf().AsEntityRepository().As(typeof(IEntityListRepository<,,>)).As(typeof(IListRepository<,,>));
 
 			UpdateContainer(cb);
 			UpdateProperties();
