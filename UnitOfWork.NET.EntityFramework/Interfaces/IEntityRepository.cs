@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq.Expressions;
 using Caelan.DynamicLinq.Classes;
 using UnitOfWork.NET.Interfaces;
+using System.Linq;
 
 namespace UnitOfWork.NET.EntityFramework.Interfaces
 {
@@ -15,12 +16,6 @@ namespace UnitOfWork.NET.EntityFramework.Interfaces
 		TEntity Entity(params object[] ids);
 
 		TEntity Entity(Expression<Func<TEntity, bool>> expr);
-
-		IEnumerable<TEntity> All(Expression<Func<TEntity, bool>> expr);
-
-		bool Exists(Expression<Func<TEntity, bool>> expr);
-
-		int Count(Expression<Func<TEntity, bool>> expr);
 
 		TEntity Insert(TEntity entity);
 
@@ -40,8 +35,6 @@ namespace UnitOfWork.NET.EntityFramework.Interfaces
 		IEnumerable<TDTO> List();
 
 		IEnumerable<TDTO> List(Expression<Func<TEntity, bool>> expr);
-
-		DataSourceResult<TDTO> DataSource(int take, int skip, ICollection<Sort> sort, Filter filter, Expression<Func<TEntity, bool>> where);
 
 		TDTO Insert(TDTO dto);
 

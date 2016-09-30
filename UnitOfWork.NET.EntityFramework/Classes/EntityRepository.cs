@@ -26,15 +26,9 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 
 		public DbSet<TEntity> Set => Data as DbSet<TEntity>;
 
-		public IEnumerable<TEntity> All(Expression<Func<TEntity, bool>> expr) => Set.Where(expr);
-
-		public int Count(Expression<Func<TEntity, bool>> expr) => Set.Count(expr);
-
 		public TEntity Entity(Expression<Func<TEntity, bool>> expr) => Set.FirstOrDefault(expr);
 
 		public TEntity Entity(params object[] ids) => Set.Find(ids);
-
-		public bool Exists(Expression<Func<TEntity, bool>> expr) => Set.Any(expr);
 
 		public virtual TEntity Insert(TEntity entity) => Set.Add(entity);
 
@@ -62,11 +56,11 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 		{
 		}
 
-		public TDTO ElementBuilt(Func<TEntity, bool> expr) => DTO(Expression.Lambda<Func<TEntity, bool>>(Expression.Call(expr.Method)));
+		public TDTO ElementBuilt(Expression<Func<TEntity, bool>> expr) => DTO(expr);
 
 		public IEnumerable<TDTO> AllBuilt() => List();
 
-		public IEnumerable<TDTO> AllBuilt(Func<TEntity, bool> expr) => List(Expression.Lambda<Func<TEntity, bool>>(Expression.Call(expr.Method)));
+		public IEnumerable<TDTO> AllBuilt(Expression<Func<TEntity, bool>> expr) => List(expr);
 
 		public DataSourceResult<TDTO> DataSource(int take, int skip, ICollection<Sort> sort, Filter filter, Func<TEntity, bool> expr) => DataSource(take, skip, sort, filter, Expression.Lambda<Func<TEntity, bool>>(Expression.Call(expr.Method)));
 

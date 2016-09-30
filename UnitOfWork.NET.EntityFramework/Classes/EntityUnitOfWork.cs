@@ -46,7 +46,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 			base.Dispose();
 		}
 
-		public override IEnumerable<T> Data<T>() => Set<T>().AsEnumerable();
+		public override IQueryable<T> Data<T>() => Set<T>();
 
 		public virtual void BeforeSaveChanges(DbContext context)
 		{
@@ -97,7 +97,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 				}
 			}
 		}
-		
+
 		public bool Transaction(IsolationLevel isolationLevel, Action<IEntityUnitOfWork> body)
 		{
 			using (var transaction = _dbContext.Database.BeginTransaction(isolationLevel))
