@@ -9,7 +9,7 @@ using System.Linq.Dynamic;
 
 namespace UnitOfWork.NET.EntityFramework.NUnit.Repositories
 {
-	public class UserRepository : EntityRepository<User, UserDTO>
+	public class UserRepository : CustomRepository<User, UserDTO>
 	{
 		public UserRepository(IUnitOfWork manager) : base(manager)
 		{

@@ -58,7 +58,7 @@
       <HintPath>..\packages\ClassBuilder.4.0.0.80\lib\net45\ClassBuilder.dll</HintPath>
     </Reference>
     <Reference Include="UnitOfWork.NET">
-      <HintPath>..\packages\UnitOfWork.NET.4.1.0.491\lib\net45\UnitOfWork.NET.dll</HintPath>
+      <HintPath>..\packages\UnitOfWork.NET.4.1.0.494\lib\net45\UnitOfWork.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +71,7 @@
     <Compile Include="Repositories\RoleRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Test.cs" />
+    <Compile Include="Repositories\CustomRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
