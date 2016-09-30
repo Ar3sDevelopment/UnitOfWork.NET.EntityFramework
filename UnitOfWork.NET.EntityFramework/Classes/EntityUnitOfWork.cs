@@ -46,7 +46,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 			base.Dispose();
 		}
 
-		public override IEnumerable<T> Data<T>() => Set<T>().AsEnumerable();
+		public override IQueryable<T> Data<T>() => Set<T>();
 
 		public virtual void BeforeSaveChanges(DbContext context)
 		{
@@ -97,7 +97,7 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 				}
 			}
 		}
-		
+
 		public bool Transaction(IsolationLevel isolationLevel, Action<IEntityUnitOfWork> body)
 		{
 			using (var transaction = _dbContext.Database.BeginTransaction(isolationLevel))
@@ -121,9 +121,29 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 			base.RegisterRepository(cb, repositoryType);
 
 			if (repositoryType.IsGenericTypeDefinition)
+			{
 				cb.RegisterGeneric(repositoryType).AsSelf().AsEntityRepository().AsImplementedInterfaces();
+			}
 			else
-				cb.RegisterType(repositoryType).AsSelf().AsEntityRepository().AsImplementedInterfaces();
+			{
+				var baseType = repositoryType.BaseType;
+				while (baseType.GenericTypeArguments.Length <= 0)
+				{
+					baseType = repositoryType.BaseType;
+				}
+				var args = baseType.GenericTypeArguments;
+				Type sourceType = null;
+				Type destType = null;
+				if (args.Length > 0)
+				{
+					sourceType = args.First();
+					if (args.Length > 1)
+					{
+						destType = args.Skip(1).First();
+					}
+				}
+				cb.RegisterType(repositoryType).AsSelf().AsEntityRepository(sourceType, destType).AsImplementedInterfaces();
+			}
 		}
 
 		public bool TransactionSaveChanges(IsolationLevel isolationLevel, Action<IEntityUnitOfWork> body)
