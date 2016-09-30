@@ -30,20 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Caelan.DynamicLinq, Version=2.0.20.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Caelan.DynamicLinq.2.0.20.0\lib\net40\Caelan.DynamicLinq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Caelan.Frameworks.Common, Version=3.3.1.260, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caelan.Frameworks.Common.3.3.1.260\lib\net45\Caelan.Frameworks.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ClassBuilder, Version=4.0.0.71, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ClassBuilder.4.0.0.71\lib\net45\ClassBuilder.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -67,9 +55,17 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnitOfWork.NET, Version=4.1.0.461, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UnitOfWork.NET.4.1.0.461\lib\net45\UnitOfWork.NET.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="ClassBuilder">
+      <HintPath>..\packages\ClassBuilder.4.0.0.75\lib\net45\ClassBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Caelan.Frameworks.Common">
+      <HintPath>..\packages\Caelan.Frameworks.Common.3.3.1.268\lib\net45\Caelan.Frameworks.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="UnitOfWork.NET">
+      <HintPath>..\packages\UnitOfWork.NET.4.1.0.480\lib\net45\UnitOfWork.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
