@@ -116,9 +116,11 @@ namespace UnitOfWork.NET.EntityFramework.Classes
 			}
 		}
 
-		protected override void RegisterRepository(ContainerBuilder cb, Type repositoryType)
+		protected override void RegisterRepository(ContainerBuilder cb, Type repositoryType, bool force = false)
 		{
-			base.RegisterRepository(cb, repositoryType);
+			base.RegisterRepository(cb, repositoryType, force);
+
+			if (!force && IsRepositoryRegistered(repositoryType)) return;
 
 			if (repositoryType.IsGenericTypeDefinition)
 			{
