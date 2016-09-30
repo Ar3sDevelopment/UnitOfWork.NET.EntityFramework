@@ -48,17 +48,17 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="ClassBuilder">
-      <HintPath>..\packages\ClassBuilder.4.0.0.75\lib\net45\ClassBuilder.dll</HintPath>
-    </Reference>
     <Reference Include="Caelan.Frameworks.Common">
       <HintPath>..\packages\Caelan.Frameworks.Common.3.3.1.268\lib\net45\Caelan.Frameworks.Common.dll</HintPath>
     </Reference>
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="ClassBuilder">
+      <HintPath>..\packages\ClassBuilder.4.0.0.80\lib\net45\ClassBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="UnitOfWork.NET">
-      <HintPath>..\packages\UnitOfWork.NET.4.1.0.484\lib\net45\UnitOfWork.NET.dll</HintPath>
+      <HintPath>..\packages\UnitOfWork.NET.4.1.0.491\lib\net45\UnitOfWork.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
